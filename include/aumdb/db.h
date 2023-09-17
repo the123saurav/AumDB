@@ -11,7 +11,12 @@ namespace AumDb {
     // Enums for error codes
     enum class ErrorCode {
         None,
-        SyntaxError
+        BadInput,
+        DBNotStarted,
+        DBAlreadyStarted,
+        ResourceAlreadyExists,
+
+        RuntimeError
     };
 
     // Cursor class for result traversal
@@ -26,13 +31,25 @@ namespace AumDb {
         virtual ~Cursor() = 0;
     };
 
-    // Base Result class for query execution results
+    /*
+        Base Result class for query execution results.
+        A caller can always cast to it if he just wants to know if it was successful
+        e.g INSERT/UPDATE/DELETE/CREATE
+        OR subclass to types for more info where applicable.
+    */ 
     struct Result {
-        ErrorCode error_code;
-        std::string err_msg;
+        std::unique_ptr<ErrorCode> error_code_;
+        std::unique_ptr<std::string> err_msg_;
+
+        Result();
 
         // Constructor to initialize error information
         Result(ErrorCode ec, std::string e);
+    };
+
+    // Result class for INSERT operations
+    struct CreateResult: public Result {
+        using Result::Result;
     };
 
     // Result class for INSERT operations
@@ -48,10 +65,10 @@ namespace AumDb {
     };
 
     // Public API for starting the database
-    void init();
+    Result start();
 
     // Public API for executing a query; returns a unique pointer to a Result object
-    std::unique_ptr<Result> executeQuery(const std::string& query);
+    Result executeQuery(const std::string& query);
 
     // Public API for stopping the database
     void stop();

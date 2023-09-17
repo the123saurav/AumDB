@@ -1,5 +1,5 @@
 {
-    "data_dir": "/Users/the123saurav/aumdb",
+    "data_dir": "/tmp/AumDb",
     "page_size": 4000, 
     "buffer_pool_pages": 1000
 }

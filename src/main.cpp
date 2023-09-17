@@ -9,5 +9,5 @@ using namespace std;
 int main()
 {
     spdlog::info("Hello");
-    AumDb::init();
+    AumDb::start();
 }

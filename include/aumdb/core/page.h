@@ -1,3 +1,5 @@
+#ifndef AUMDB_CORE_PAGE_H
+#define AUMDB_CORE_PAGE_H
 #include <atomic>
 
 namespace AumDb {
@@ -13,9 +15,8 @@ namespace AumDb {
             std::atomic_bool latch_;    
             // A page owns the node memory
             std::shared_ptr<Node> node;
-        }
-
-        
-
+        };
     } // Core
 } // AumDb
+
+#endif

@@ -1,4 +1,7 @@
 # AumDB
+
+[![Build](https://github.com/the123saurav/AumDB/actions/workflows/cmake.yml/badge.svg)](https://github.com/the123saurav/AumDB/actions/workflows/cmake.yml)
+
 A relational, embedded database for educational purposes
 
 # P0 
@@ -48,7 +51,6 @@ It would be slotted page:
 The index leaf pages have (pageId, slot) which allows for indirection within page like compation etc.
 
 A page is self contained.
-
 
 
 ### Index
