@@ -48,7 +48,7 @@ namespace AumDb {
     };
 
     // Public API for starting the database
-    void start();
+    void init();
 
     // Public API for executing a query; returns a unique pointer to a Result object
     std::unique_ptr<Result> executeQuery(const std::string& query);
