@@ -77,23 +77,21 @@ AumDb::Result AumDb::Core::Engine::handleQuery(const hsql::SQLStatement* stateme
         if (tables_.find(table_detail) != tables_.end()) {
             return Result(AumDb::ErrorCode::ResourceAlreadyExists, "TableAlreadyExists");
         }
+       
 
-        auto ec = AumDb::Core::Catalog::add_table(config_["data_dir"], table_detail);
-
-        if (ec) {
+        if ( auto ec = AumDb::Core::Catalog::add_table(config_["data_dir"], table_detail); ec) {
             spdlog::error("Create catalog table threw error {}", AumDb::Core::errorcode_to_string(ec.value()));
             return Result(AumDb::ErrorCode::RuntimeError, "catalog table creation error");
         }
 
-        auto heap_ec = AumDb::Core::HeapFile::create_file(config_["data_dir"], table_detail.name_, config_["page_size"]);
-        if (heap_ec) {
+        
+        if (auto heap_ec = AumDb::Core::HeapFile::create_file(config_["data_dir"], table_detail.name_, config_["page_size"]); heap_ec) {
             spdlog::error("Create heap file for  table threw error {}", AumDb::Core::errorcode_to_string(heap_ec.value()));
             return Result(AumDb::ErrorCode::RuntimeError, "heap file creation error");
         }
-
-        auto index_ec = AumDb::Core::BTreeIndex<unsigned int>::create_file(config_["data_dir"], table_detail.name_, 
-            config_["page_size"], table_detail.pkey_col_size_);
-        if (index_ec) {
+        
+        if (auto index_ec = AumDb::Core::BTreeIndex<unsigned int>::create_file(config_["data_dir"], table_detail.name_, 
+            config_["page_size"], table_detail.pkey_col_size_); index_ec) {
             spdlog::error("Create index file for  table threw error {}", AumDb::Core::errorcode_to_string(index_ec.value()));
             return Result(AumDb::ErrorCode::RuntimeError, "index file creation error");
         }

@@ -72,8 +72,8 @@ namespace AumDb
                                                                      unsigned char max_pk_length)
             {
                 std::string table_dir = dir + "/" + table_name + "/";
-                auto ec = AumDb::Core::create_directory(table_dir);
-                if (ec)
+                
+                if (auto ec = AumDb::Core::create_directory(table_dir); ec)
                 {
                     return ec;
                 }

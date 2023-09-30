@@ -11,8 +11,7 @@ namespace AumDb
             PAGE_SIZE_T page_size)
         {
             std::string table_dir = dir + "/" + table_name + "/";
-            auto ec = AumDb::Core::create_directory(table_dir);
-            if (ec)
+            if (auto ec = AumDb::Core::create_directory(table_dir); ec)
             {
                 return ec;
             }

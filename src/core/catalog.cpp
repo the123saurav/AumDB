@@ -7,6 +7,8 @@
 #include "aumdb/core/catalog.h"
 #include "aumdb/core/util.h"
 
+namespace fs = std::filesystem;
+
 /**
 There could be multiple catalog tables in the system.
 Each catalog table is a self contained file on disk.
@@ -78,8 +80,8 @@ bool AumDb::Core::TableDetail::operator==(const AumDb::Core::TableDetail& other)
 
 std::optional<AumDb::Core::ErrorCode> AumDb::Core::Catalog::create_table(const std::string& dir) {
     std::string system_dir = dir + "/" + AumDb::Core::Catalog::SYSTEM_DIR + "/"  ;
-    auto ec = AumDb::Core::create_directory(system_dir);
-    if (ec) {
+    
+    if (auto ec = AumDb::Core::create_directory(system_dir); ec) {
         return ec;
     }
 
